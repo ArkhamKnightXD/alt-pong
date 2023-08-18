@@ -10,7 +10,6 @@ public class Ball extends GameObject {
     private final Vector2 initialPosition;
 
     public Ball(Rectangle rectangle, GameScreen gameScreen) {
-
         super(rectangle, "images/white.png", 300);
 
         this.gameScreen = gameScreen;
@@ -59,7 +58,6 @@ public class Ball extends GameObject {
     public void reverseVelocityX(){
         velocity.x *= -1;
     }
-
     public void reverseVelocityY(){
         velocity.y *= -1;
     }

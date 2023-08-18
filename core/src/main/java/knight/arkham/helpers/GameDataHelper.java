@@ -8,7 +8,7 @@ public class GameDataHelper {
 
     public static void saveGameData(int player1Score, int player2Score){
 
-        Preferences preferences = Gdx.app.getPreferences("pong-data");
+        Preferences preferences = Gdx.app.getPreferences("pong-alt-data");
 
         preferences.putInteger("player1Score", player1Score);
         preferences.putInteger("player2Score", player2Score);
@@ -18,7 +18,7 @@ public class GameDataHelper {
 
     public static void loadGameData(Player player, Player enemy){
 
-        Preferences preferences = Gdx.app.getPreferences("pong-data");
+        Preferences preferences = Gdx.app.getPreferences("pong-alt-data");
 
         player.score = preferences.getInteger("player1Score");
         enemy.score = preferences.getInteger("player2Score");

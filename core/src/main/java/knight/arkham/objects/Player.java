@@ -12,7 +12,6 @@ public class Player extends GameObject {
     public Player(Rectangle rectangle, boolean isPlayer1) {
         super(rectangle, "images/players.png", 500);
         this.isPlayer1 = isPlayer1;
-        score = 0;
     }
 
     public void update(float deltaTime) {

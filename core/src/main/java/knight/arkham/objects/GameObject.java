@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-
 public abstract class GameObject {
     protected float actualSpeed;
     protected final Rectangle bounds;
@@ -22,6 +21,5 @@ public abstract class GameObject {
     }
 
     public Rectangle getBounds() {return bounds;}
-
     public void dispose() {sprite.dispose();}
 }

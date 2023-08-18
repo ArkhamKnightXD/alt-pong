@@ -23,7 +23,6 @@ import knight.arkham.objects.Wall;
 import static knight.arkham.helpers.Constants.*;
 
 public class GameScreen extends ScreenAdapter {
-
     private final Pong game;
     private final Player player;
     private final Player enemy;
@@ -74,7 +73,6 @@ public class GameScreen extends ScreenAdapter {
 
         return TextureRegion.split(textureToSplit, textureToSplit.getWidth() / 10, textureToSplit.getHeight())[0];
     }
-
 
     @Override
     public void resize(int width, int height) {
