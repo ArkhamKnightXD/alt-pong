@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -17,6 +18,7 @@ import knight.arkham.Pong;
 import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.objects.Ball;
+import knight.arkham.objects.GameObject;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
 
@@ -34,6 +36,7 @@ public class GameScreen extends ScreenAdapter {
     private final TextureRegion[] scoreNumbers;
     private final Music music;
     private final Sound winSound;
+    private final Array<GameObject> gameObjects;
 
     public GameScreen(boolean isNewGame) {
 
@@ -49,6 +52,9 @@ public class GameScreen extends ScreenAdapter {
 
         topWall = new Wall(new Rectangle(480,906, FULL_SCREEN_WIDTH, 64));
         bottomWall = new Wall(new Rectangle(480,314, FULL_SCREEN_WIDTH, 64));
+
+        gameObjects = new Array<>();
+        gameObjects.add(topWall, bottomWall, player, enemy);
 
         camera = new OrthographicCamera();
 
@@ -99,10 +105,8 @@ public class GameScreen extends ScreenAdapter {
         player.hasCollision(topWall.getBounds(), bottomWall.getBounds());
         enemy.hasCollision(topWall.getBounds(), bottomWall.getBounds());
 
-        ball.hasCollision(topWall);
-        ball.hasCollision(bottomWall);
-        ball.hasCollision(player);
-        ball.hasCollision(enemy);
+        for (GameObject gameObject : gameObjects)
+            ball.hasCollision(gameObject);
     }
 
     private void manageGameData() {
