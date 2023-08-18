@@ -1,22 +1,21 @@
 package knight.arkham.objects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import knight.arkham.screens.GameScreen;
 
-
 public class Ball extends GameObject {
     private final Vector2 velocity;
     private final GameScreen gameScreen;
+    private final Vector2 initialPosition;
 
     public Ball(Rectangle rectangle, GameScreen gameScreen) {
 
-        super(rectangle, "images/white.png", 6);
+        super(rectangle, "images/white.png", 300);
 
         this.gameScreen = gameScreen;
         velocity = new Vector2(getRandomDirection(), getRandomDirection());
+        initialPosition = new Vector2(rectangle.x, rectangle.y);
     }
 
     private float getRandomDirection(){
@@ -27,25 +26,34 @@ public class Ball extends GameObject {
     private void resetBallPosition(){
         velocity.set(getRandomDirection(), getRandomDirection());
 
-//        body.setTransform(1000/ PIXELS_PER_METER,600/ PIXELS_PER_METER,0);
+        bounds.x = initialPosition.x;
+        bounds.y = initialPosition.y;
     }
 
-    public void update(){
+    public void update(float deltaTime){
 
-//        body.setLinearVelocity(velocity.x * actualSpeed, velocity.y * actualSpeed);
+        bounds.x += velocity.x * actualSpeed * deltaTime;
+        bounds.y += velocity.y * actualSpeed * deltaTime;
 
         if (bounds.x > 1450){
-            Player.score += 1;
+            gameScreen.getPlayer().score += 1;
             resetBallPosition();
         }
 
         if (bounds.x < 470){
-            Player.score += 1;
+            gameScreen.getEnemy().score += 1;
             resetBallPosition();
         }
+    }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.R))
-            resetBallPosition();
+    public void hasCollision(GameObject collisionObject){
+
+        boolean hasCollision = bounds.overlaps(collisionObject.getBounds());
+
+        if (hasCollision && collisionObject instanceof Wall)
+            reverseVelocityY();
+        else if (hasCollision && collisionObject instanceof Player)
+            reverseVelocityX();
     }
 
     public void reverseVelocityX(){
@@ -54,9 +62,5 @@ public class Ball extends GameObject {
 
     public void reverseVelocityY(){
         velocity.y *= -1;
-    }
-
-    public void incrementXVelocity(){
-        velocity.x *= 1.1f;
     }
 }

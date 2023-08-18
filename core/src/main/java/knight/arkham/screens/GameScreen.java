@@ -36,7 +36,6 @@ public class GameScreen extends ScreenAdapter {
     private final Music music;
     private final Sound winSound;
 
-
     public GameScreen(boolean isNewGame) {
 
         game = Pong.INSTANCE;
@@ -47,10 +46,10 @@ public class GameScreen extends ScreenAdapter {
         if (!isNewGame)
             GameDataHelper.loadGameData(player, enemy);
 
-        ball = new Ball(new Rectangle(1000,600, 32, 32), this);
+        ball = new Ball(new Rectangle(1000,600, 20, 20), this);
 
-        topWall = new Wall(new Rectangle(480,900, FULL_SCREEN_WIDTH, 64));
-        bottomWall = new Wall(new Rectangle(480,320, FULL_SCREEN_WIDTH, 64));
+        topWall = new Wall(new Rectangle(480,906, FULL_SCREEN_WIDTH, 64));
+        bottomWall = new Wall(new Rectangle(480,314, FULL_SCREEN_WIDTH, 64));
 
         camera = new OrthographicCamera();
 
@@ -82,11 +81,13 @@ public class GameScreen extends ScreenAdapter {
         viewport.update(width, height);
     }
 
-    private void update(){
+    private void update(float deltaTime){
 
-        player.update();
-        enemy.update();
-        ball.update();
+        player.update(deltaTime);
+        enemy.update(deltaTime);
+        ball.update(deltaTime);
+
+        manageObjectCollisions();
 
         setGameOverScreen();
 
@@ -95,15 +96,26 @@ public class GameScreen extends ScreenAdapter {
         game.manageExitTheGame();
     }
 
+    private void manageObjectCollisions() {
+
+        player.hasCollision(topWall.getBounds(), bottomWall.getBounds());
+        enemy.hasCollision(topWall.getBounds(), bottomWall.getBounds());
+
+        ball.hasCollision(topWall);
+        ball.hasCollision(bottomWall);
+        ball.hasCollision(player);
+        ball.hasCollision(enemy);
+    }
+
     private void manageGameData() {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
-            GameDataHelper.saveGameData(Player.score, Player.score);
+            GameDataHelper.saveGameData(player.score, enemy.score);
     }
 
     private void setGameOverScreen() {
 
-        if (Player.score > 4){
+        if (player.score > 4 || enemy.score > 4){
 
             winSound.play();
             game.setScreen(new MainMenuScreen());
@@ -112,9 +124,9 @@ public class GameScreen extends ScreenAdapter {
 
 
     @Override
-    public void render(float delta) {
+    public void render(float deltaTime) {
 
-        update();
+        update(deltaTime);
 
         draw();
     }
@@ -129,10 +141,9 @@ public class GameScreen extends ScreenAdapter {
 
         topWall.draw(game.batch);
 
-//        El orden importa debido a que draw esta después de top-wall, este se renderizara encima de él y no detrás
-        drawScoreNumbers(game.batch, Player.score, 500);
+        drawScoreNumbers(game.batch, player.score, 500);
 
-        drawScoreNumbers(game.batch, Player.score, 1380);
+        drawScoreNumbers(game.batch, enemy.score, 1380);
 
         bottomWall.draw(game.batch);
 
@@ -149,16 +160,13 @@ public class GameScreen extends ScreenAdapter {
         final float height = 64;
 
         if (scoreNumber < 10)
-            batch.draw(scoreNumbers[scoreNumber], x, 900,
-                width , height);
+            batch.draw(scoreNumbers[scoreNumber], x, 900, width , height);
 
         else {
 
-            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(0, 1))], x,
-                900 , width , height);
+            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(0, 1))], x, 900 , width , height);
 
-            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(1, 2))], x +20,
-                900, width, height);
+            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(1, 2))], x +20, 900, width, height);
         }
     }
 
@@ -178,4 +186,7 @@ public class GameScreen extends ScreenAdapter {
         enemy.dispose();
         music.dispose();
     }
+
+    public Player getPlayer() {return player;}
+    public Player getEnemy() {return enemy;}
 }

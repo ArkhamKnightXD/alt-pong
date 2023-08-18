@@ -4,31 +4,39 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 public class Player extends GameObject {
+    public int score;
     private final boolean isPlayer1;
-    public static int score;
+    private boolean hasTopCollision;
+    private boolean hasBottomCollision;
 
     public Player(Rectangle rectangle, boolean isPlayer1) {
-        super(rectangle, "images/players.png", 10);
+        super(rectangle, "images/players.png", 500);
         this.isPlayer1 = isPlayer1;
         score = 0;
     }
 
-    public void update() {
+    public void update(float deltaTime) {
 
         if (isPlayer1) {
 
-            if (Gdx.input.isKeyPressed(Input.Keys.W))
-                bounds.y += actualSpeed;
+            if (!hasTopCollision && Gdx.input.isKeyPressed(Input.Keys.W))
+                bounds.y += actualSpeed * deltaTime;
 
-            else if (Gdx.input.isKeyPressed(Input.Keys.S))
-                bounds.y  -= actualSpeed;
+            else if (!hasBottomCollision && Gdx.input.isKeyPressed(Input.Keys.S))
+                bounds.y -= actualSpeed * deltaTime;
         }
         else {
-            if (Gdx.input.isKeyPressed(Input.Keys.UP))
-                bounds.y += actualSpeed;
+            if (!hasTopCollision && Gdx.input.isKeyPressed(Input.Keys.UP))
+                bounds.y += actualSpeed * deltaTime;
 
-            else if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-                bounds.y  -= actualSpeed;
+            else if (!hasBottomCollision &&  Gdx.input.isKeyPressed(Input.Keys.DOWN))
+                bounds.y  -= actualSpeed * deltaTime;
         }
+    }
+
+    public void hasCollision(Rectangle topCollisionBounds, Rectangle bottomCollisionBounds){
+
+        hasTopCollision = bounds.overlaps(topCollisionBounds);
+        hasBottomCollision = bounds.overlaps(bottomCollisionBounds);
     }
 }

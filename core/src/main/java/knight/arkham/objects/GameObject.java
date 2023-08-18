@@ -21,5 +21,7 @@ public abstract class GameObject {
         batch.draw(sprite, bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
+    public Rectangle getBounds() {return bounds;}
+
     public void dispose() {sprite.dispose();}
 }
