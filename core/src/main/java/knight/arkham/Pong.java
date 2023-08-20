@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import knight.arkham.screens.GameScreen;
 import knight.arkham.screens.MainMenuScreen;
 
 public class Pong extends Game {
@@ -26,7 +25,7 @@ public class Pong extends Game {
 
         batch = new SpriteBatch();
 
-        setScreen(new GameScreen(true));
+        setScreen(new MainMenuScreen());
     }
 
 

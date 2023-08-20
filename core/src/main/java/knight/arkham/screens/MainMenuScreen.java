@@ -16,9 +16,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Pong;
 
-import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
-import static knight.arkham.helpers.Constants.FULL_SCREEN_WIDTH;
-
 public class MainMenuScreen extends ScreenAdapter {
     private final Pong game;
     private final Skin skin;
@@ -39,7 +36,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         skin = assetManager.get(uiSkin);
 
-        viewport = new ExtendViewport(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
+        viewport = new ExtendViewport(game.screenWidth, game.screenHeight);
 
         stage = new Stage(viewport);
 

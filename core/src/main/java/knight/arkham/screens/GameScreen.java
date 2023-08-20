@@ -20,8 +20,6 @@ import knight.arkham.objects.Ball;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
 
-import static knight.arkham.helpers.Constants.*;
-
 public class GameScreen extends ScreenAdapter {
     private final Pong game;
     private final Player player;
@@ -47,14 +45,14 @@ public class GameScreen extends ScreenAdapter {
 
         ball = new Ball(new Rectangle(1000,600, 20, 20), this);
 
-        topWall = new Wall(new Rectangle(480,906, FULL_SCREEN_WIDTH, 64));
-        bottomWall = new Wall(new Rectangle(480,314, FULL_SCREEN_WIDTH, 64));
+        topWall = new Wall(new Rectangle(480,906, game.screenWidth, 64));
+        bottomWall = new Wall(new Rectangle(480,314, game.screenWidth, 64));
 
         camera = new OrthographicCamera();
 
-        viewport = new FitViewport(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, camera);
+        viewport = new FitViewport(game.screenWidth, game.screenHeight, camera);
 
-        camera.position.set(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, 0);
+        camera.position.set(game.screenWidth, game.screenHeight, 0);
 
         scoreNumbers = loadTextureSprite();
 
