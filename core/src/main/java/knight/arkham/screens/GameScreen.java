@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,7 +17,6 @@ import knight.arkham.Pong;
 import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.objects.Ball;
-import knight.arkham.objects.GameObject;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
 
@@ -36,7 +34,6 @@ public class GameScreen extends ScreenAdapter {
     private final TextureRegion[] scoreNumbers;
     private final Music music;
     private final Sound winSound;
-    private final Array<GameObject> gameObjects;
 
     public GameScreen(boolean isNewGame) {
 
@@ -53,9 +50,6 @@ public class GameScreen extends ScreenAdapter {
         topWall = new Wall(new Rectangle(480,906, FULL_SCREEN_WIDTH, 64));
         bottomWall = new Wall(new Rectangle(480,314, FULL_SCREEN_WIDTH, 64));
 
-        gameObjects = new Array<>();
-        gameObjects.add(topWall, bottomWall, player, enemy);
-
         camera = new OrthographicCamera();
 
         viewport = new FitViewport(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, camera);
@@ -68,7 +62,7 @@ public class GameScreen extends ScreenAdapter {
 
         music.play();
         music.setLooping(true);
-        music.setVolume(0.3f);
+        music.setVolume(0.2f);
 
         winSound = AssetsHelper.loadSound("win.wav");
     }
@@ -91,22 +85,14 @@ public class GameScreen extends ScreenAdapter {
         enemy.update(deltaTime);
         ball.update(deltaTime);
 
-        manageObjectCollisions();
+        ball.hasCollision(player.getBounds());
+        ball.hasCollision(enemy.getBounds());
 
         setGameOverScreen();
 
         manageGameData();
 
         game.manageExitTheGame();
-    }
-
-    private void manageObjectCollisions() {
-
-        player.hasCollision(topWall.getBounds(), bottomWall.getBounds());
-        enemy.hasCollision(topWall.getBounds(), bottomWall.getBounds());
-
-        for (GameObject gameObject : gameObjects)
-            ball.hasCollision(gameObject);
     }
 
     private void manageGameData() {

@@ -34,6 +34,12 @@ public class Ball extends GameObject {
         bounds.x += velocity.x * actualSpeed * deltaTime;
         bounds.y += velocity.y * actualSpeed * deltaTime;
 
+        boolean hasTopCollision = bounds.y > 885;
+        boolean hasBottomCollision = bounds.y < 380;
+
+        if (hasTopCollision || hasBottomCollision)
+            reverseVelocityY();
+
         if (bounds.x > 1450){
             gameScreen.getPlayer().score += 1;
             resetBallPosition();
@@ -45,13 +51,11 @@ public class Ball extends GameObject {
         }
     }
 
-    public void hasCollision(GameObject collisionObject){
+    public void hasCollision(Rectangle playerBounds){
 
-        boolean hasCollision = bounds.overlaps(collisionObject.getBounds());
+        boolean hasCollision = bounds.overlaps(playerBounds);
 
-        if (hasCollision && collisionObject instanceof Wall)
-            reverseVelocityY();
-        else if (hasCollision && collisionObject instanceof Player)
+        if (hasCollision)
             reverseVelocityX();
     }
 

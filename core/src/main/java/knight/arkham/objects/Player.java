@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 public class Player extends GameObject {
     public int score;
     private final boolean isPlayer1;
-    private boolean hasTopCollision;
-    private boolean hasBottomCollision;
 
     public Player(Rectangle rectangle, boolean isPlayer1) {
         super(rectangle, "images/players.png", 500);
@@ -15,6 +13,9 @@ public class Player extends GameObject {
     }
 
     public void update(float deltaTime) {
+
+        boolean hasTopCollision = bounds.y > 840;
+        boolean hasBottomCollision = bounds.y < 380;
 
         if (isPlayer1) {
 
@@ -31,11 +32,5 @@ public class Player extends GameObject {
             else if (!hasBottomCollision &&  Gdx.input.isKeyPressed(Input.Keys.DOWN))
                 bounds.y  -= actualSpeed * deltaTime;
         }
-    }
-
-    public void hasCollision(Rectangle topCollisionBounds, Rectangle bottomCollisionBounds){
-
-        hasTopCollision = bounds.overlaps(topCollisionBounds);
-        hasBottomCollision = bounds.overlaps(bottomCollisionBounds);
     }
 }
