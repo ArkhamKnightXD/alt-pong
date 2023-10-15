@@ -1,5 +1,6 @@
 package knight.arkham.objects;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import knight.arkham.screens.GameScreen;
@@ -10,7 +11,7 @@ public class Ball extends GameObject {
     private final Vector2 initialPosition;
 
     public Ball(Rectangle rectangle, GameScreen gameScreen) {
-        super(rectangle, "images/white.png", 300);
+        super(rectangle, 300);
 
         this.gameScreen = gameScreen;
         velocity = new Vector2(getRandomDirection(), getRandomDirection());
@@ -34,8 +35,8 @@ public class Ball extends GameObject {
         actualBounds.x += velocity.x * actualSpeed * deltaTime;
         actualBounds.y += velocity.y * actualSpeed * deltaTime;
 
-        boolean hasTopCollision = actualBounds.y > 885;
-        boolean hasBottomCollision = actualBounds.y < 380;
+        boolean hasTopCollision = actualBounds.y > 960;
+        boolean hasBottomCollision = actualBounds.y < 330;
 
         if (hasTopCollision || hasBottomCollision)
             reverseVelocityY();
@@ -57,6 +58,10 @@ public class Ball extends GameObject {
 
         if (hasCollision)
             reverseVelocityX();
+    }
+
+    public void draw(ShapeRenderer shape) {
+        shape.circle(actualBounds.x, actualBounds.y, 15);
     }
 
     public void reverseVelocityX(){

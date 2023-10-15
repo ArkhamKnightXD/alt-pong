@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,35 +19,30 @@ import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.objects.Ball;
 import knight.arkham.objects.Player;
-import knight.arkham.objects.Wall;
 
 public class GameScreen extends ScreenAdapter {
     private final Pong game;
     private final Player player;
     private final Player enemy;
     private final Ball ball;
-    private final Wall bottomWall;
-    private final Wall topWall;
     private final OrthographicCamera camera;
     private final Viewport viewport;
     private final TextureRegion[] scoreNumbers;
     private final Music music;
     private final Sound winSound;
+    private final ShapeRenderer shapeRenderer;
 
     public GameScreen(boolean isNewGame) {
 
         game = Pong.INSTANCE;
 
-        player = new Player(new Rectangle(480, 600, 16, 64), true);
-        enemy = new Player(new Rectangle(1420,600, 16, 64), false);
+        player = new Player(new Rectangle(490, 600, 16, 64), true);
+        enemy = new Player(new Rectangle(1410,600, 16, 64), false);
 
         if (!isNewGame)
             GameDataHelper.loadGameData(player, enemy);
 
         ball = new Ball(new Rectangle(1000,600, 20, 20), this);
-
-        topWall = new Wall(new Rectangle(480,906, game.screenWidth, 64));
-        bottomWall = new Wall(new Rectangle(480,314, game.screenWidth, 64));
 
         camera = new OrthographicCamera();
 
@@ -63,6 +59,7 @@ public class GameScreen extends ScreenAdapter {
         music.setVolume(0.2f);
 
         winSound = AssetsHelper.loadSound("win.wav");
+        shapeRenderer = new ShapeRenderer();
     }
 
     private TextureRegion[] loadTextureSprite(){
@@ -119,25 +116,31 @@ public class GameScreen extends ScreenAdapter {
 
     private void draw() {
 
-        ScreenUtils.clear(0,0,0,0);
+        ScreenUtils.clear(0,0.5f,0,0);
+
+        //Puedo tener un shape rendered y batch renderer al mismo tiempo sin problemas
+        // y a ambos puedo indicarles la misma camara para el setProjectionMatrix.
+        shapeRenderer.setProjectionMatrix(camera.combined);
 
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
 
-        topWall.draw(game.batch);
-
         drawScoreNumbers(game.batch, player.score, 500);
 
         drawScoreNumbers(game.batch, enemy.score, 1380);
 
-        bottomWall.draw(game.batch);
-
-        player.draw(game.batch);
-        ball.draw(game.batch);
-        enemy.draw(game.batch);
-
         game.batch.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        shapeRenderer.line(950, 970, 940, 0);
+
+        player.draw(shapeRenderer);
+        ball.draw(shapeRenderer);
+        enemy.draw(shapeRenderer);
+
+        shapeRenderer.end();
     }
 
     private void drawScoreNumbers(SpriteBatch batch, int scoreNumber, float x){
@@ -150,9 +153,9 @@ public class GameScreen extends ScreenAdapter {
 
         else {
 
-            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(0, 1))], x, 900 , width , height);
+            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(0, 1))], x, 700 , width , height);
 
-            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(1, 2))], x +20, 900, width, height);
+            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(1, 2))], x +20, 700, width, height);
         }
     }
 
@@ -164,12 +167,6 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-
-        topWall.dispose();
-        bottomWall.dispose();
-        player.dispose();
-        ball.dispose();
-        enemy.dispose();
         music.dispose();
     }
 
