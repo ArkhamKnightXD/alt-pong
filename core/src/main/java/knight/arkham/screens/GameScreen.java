@@ -42,7 +42,7 @@ public class GameScreen extends ScreenAdapter {
         if (!isNewGame)
             GameDataHelper.loadGameData(player, enemy);
 
-        ball = new Ball(new Rectangle(1000,600, 20, 20), this);
+        ball = new Ball(new Rectangle(950,600, 20, 20), this);
 
         camera = new OrthographicCamera();
 
@@ -116,7 +116,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void draw() {
 
-        ScreenUtils.clear(0,0.5f,0,0);
+        ScreenUtils.clear(0.1f,0.5f,0.4f,0);
 
         //Puedo tener un shape rendered y batch renderer al mismo tiempo sin problemas
         // y a ambos puedo indicarles la misma camara para el setProjectionMatrix.
@@ -126,11 +126,17 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        drawScoreNumbers(game.batch, player.score, 500);
+        drawScoreNumbers(game.batch, player.score, 700);
 
-        drawScoreNumbers(game.batch, enemy.score, 1380);
+        drawScoreNumbers(game.batch, enemy.score, 1150);
 
         game.batch.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        shapeRenderer.circle(945, 640, 150);
+
+        shapeRenderer.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
