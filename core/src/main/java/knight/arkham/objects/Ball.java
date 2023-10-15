@@ -25,27 +25,27 @@ public class Ball extends GameObject {
     private void resetBallPosition(){
         velocity.set(getRandomDirection(), getRandomDirection());
 
-        bounds.x = initialPosition.x;
-        bounds.y = initialPosition.y;
+        actualBounds.x = initialPosition.x;
+        actualBounds.y = initialPosition.y;
     }
 
     public void update(float deltaTime){
 
-        bounds.x += velocity.x * actualSpeed * deltaTime;
-        bounds.y += velocity.y * actualSpeed * deltaTime;
+        actualBounds.x += velocity.x * actualSpeed * deltaTime;
+        actualBounds.y += velocity.y * actualSpeed * deltaTime;
 
-        boolean hasTopCollision = bounds.y > 885;
-        boolean hasBottomCollision = bounds.y < 380;
+        boolean hasTopCollision = actualBounds.y > 885;
+        boolean hasBottomCollision = actualBounds.y < 380;
 
         if (hasTopCollision || hasBottomCollision)
             reverseVelocityY();
 
-        if (bounds.x > 1450){
+        if (actualBounds.x > 1450){
             gameScreen.getPlayer().score += 1;
             resetBallPosition();
         }
 
-        if (bounds.x < 470){
+        if (actualBounds.x < 470){
             gameScreen.getEnemy().score += 1;
             resetBallPosition();
         }
@@ -53,7 +53,7 @@ public class Ball extends GameObject {
 
     public void hasCollision(Rectangle playerBounds){
 
-        boolean hasCollision = bounds.overlaps(playerBounds);
+        boolean hasCollision = actualBounds.overlaps(playerBounds);
 
         if (hasCollision)
             reverseVelocityX();

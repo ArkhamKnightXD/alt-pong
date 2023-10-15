@@ -14,23 +14,23 @@ public class Player extends GameObject {
 
     public void update(float deltaTime) {
 
-        boolean hasTopCollision = bounds.y > 840;
-        boolean hasBottomCollision = bounds.y < 380;
+        boolean hasTopCollision = actualBounds.y > 840;
+        boolean hasBottomCollision = actualBounds.y < 380;
 
         if (isPlayer1) {
 
             if (!hasTopCollision && Gdx.input.isKeyPressed(Input.Keys.W))
-                bounds.y += actualSpeed * deltaTime;
+                actualBounds.y += actualSpeed * deltaTime;
 
             else if (!hasBottomCollision && Gdx.input.isKeyPressed(Input.Keys.S))
-                bounds.y -= actualSpeed * deltaTime;
+                actualBounds.y -= actualSpeed * deltaTime;
         }
         else {
             if (!hasTopCollision && Gdx.input.isKeyPressed(Input.Keys.UP))
-                bounds.y += actualSpeed * deltaTime;
+                actualBounds.y += actualSpeed * deltaTime;
 
             else if (!hasBottomCollision &&  Gdx.input.isKeyPressed(Input.Keys.DOWN))
-                bounds.y  -= actualSpeed * deltaTime;
+                actualBounds.y  -= actualSpeed * deltaTime;
         }
     }
 }
