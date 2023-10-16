@@ -48,6 +48,7 @@ public class GameScreen extends ScreenAdapter {
 
         viewport = new FitViewport(game.screenWidth, game.screenHeight, camera);
 
+//        Si deseo posicionar la camara en el origen debo de dividir el screen height y width entre 2
         camera.position.set(game.screenWidth, game.screenHeight, 0);
 
         scoreNumbers = loadTextureSprite();
