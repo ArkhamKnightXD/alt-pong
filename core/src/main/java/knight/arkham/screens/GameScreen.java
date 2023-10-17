@@ -137,7 +137,9 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.end();
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+            shapeRenderer.setColor(new Color(0.4f, 0.8f, 0.6f, 0));
 
             shapeRenderer.circle(game.screenWidth / 2f,  game.screenHeight / 2f, 150);
 
