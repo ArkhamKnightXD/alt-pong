@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -138,17 +139,25 @@ public class GameScreen extends ScreenAdapter {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-        shapeRenderer.circle(game.screenWidth / 2f,  game.screenHeight / 2f, 150);
+            shapeRenderer.circle(game.screenWidth / 2f,  game.screenHeight / 2f, 150);
 
         shapeRenderer.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        shapeRenderer.line(game.screenWidth / 2f, game.screenHeight, game.screenWidth / 2f -10, 0);
+            shapeRenderer.setColor(Color.WHITE);
 
-        player.draw(shapeRenderer);
-        ball.draw(shapeRenderer);
-        enemy.draw(shapeRenderer);
+            shapeRenderer.line(game.screenWidth / 2f, game.screenHeight, game.screenWidth / 2f -6, 0);
+
+            player.draw(shapeRenderer);
+            enemy.draw(shapeRenderer);
+
+        shapeRenderer.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+            shapeRenderer.setColor(Color.YELLOW);
+            ball.draw(shapeRenderer);
 
         shapeRenderer.end();
     }
