@@ -36,20 +36,23 @@ public class GameScreen extends ScreenAdapter {
 
         game = Pong.INSTANCE;
 
-        player = new Player(new Rectangle(490, 600, 16, 64), true);
-        enemy = new Player(new Rectangle(1410,600, 16, 64), false);
-
-        if (!isNewGame)
-            GameDataHelper.loadGameData(player, enemy);
-
-        ball = new Ball(new Rectangle(950,600, 20, 20), this);
-
         camera = new OrthographicCamera();
 
         viewport = new FitViewport(game.screenWidth, game.screenHeight, camera);
 
+        float midScreenHeight = game.screenHeight / 2f;
+        float midScreenWidth = game.screenWidth / 2f;
+
 //        Si deseo posicionar la camara en el origen debo de dividir el screen height y width entre 2
-        camera.position.set(game.screenWidth, game.screenHeight, 0);
+        camera.position.set(midScreenWidth, midScreenHeight, 0);
+
+        player = new Player(new Rectangle(10, midScreenHeight, 16, 64), true);
+        enemy = new Player(new Rectangle(game.screenWidth-26, midScreenHeight, 16, 64), false);
+
+        if (!isNewGame)
+            GameDataHelper.loadGameData(player, enemy);
+
+        ball = new Ball(new Rectangle(midScreenWidth, midScreenHeight, 20, 20), this);
 
         scoreNumbers = loadTextureSprite();
 
@@ -127,21 +130,21 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.begin();
 
-        drawScoreNumbers(game.batch, player.score, 700);
+        drawScoreNumbers(game.batch, player.score, 200);
 
-        drawScoreNumbers(game.batch, enemy.score, 1150);
+        drawScoreNumbers(game.batch, enemy.score, 700);
 
         game.batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-        shapeRenderer.circle(945, 640, 150);
+        shapeRenderer.circle(game.screenWidth / 2f,  game.screenHeight / 2f, 150);
 
         shapeRenderer.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        shapeRenderer.line(950, 970, 940, 0);
+        shapeRenderer.line(game.screenWidth / 2f, game.screenHeight, game.screenWidth / 2f -10, 0);
 
         player.draw(shapeRenderer);
         ball.draw(shapeRenderer);
@@ -156,13 +159,13 @@ public class GameScreen extends ScreenAdapter {
         final float height = 64;
 
         if (scoreNumber < 10)
-            batch.draw(scoreNumbers[scoreNumber], x, 900, width , height);
+            batch.draw(scoreNumbers[scoreNumber], x, 560, width , height);
 
         else {
 
-            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(0, 1))], x, 700 , width , height);
+            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(0, 1))], x, 560 , width , height);
 
-            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(1, 2))], x +20, 700, width, height);
+            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(1, 2))], x +20, 560, width, height);
         }
     }
 

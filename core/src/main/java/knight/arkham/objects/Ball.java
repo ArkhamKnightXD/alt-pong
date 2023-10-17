@@ -35,18 +35,18 @@ public class Ball extends GameObject {
         actualBounds.x += velocity.x * actualSpeed * deltaTime;
         actualBounds.y += velocity.y * actualSpeed * deltaTime;
 
-        boolean hasTopCollision = actualBounds.y > 960;
-        boolean hasBottomCollision = actualBounds.y < 330;
+        boolean hasTopCollision = actualBounds.y > 640;
+        boolean hasBottomCollision = actualBounds.y < 0;
 
         if (hasTopCollision || hasBottomCollision)
             reverseVelocityY();
 
-        if (actualBounds.x > 1450){
+        if (actualBounds.x > 960){
             gameScreen.getPlayer().score += 1;
             resetBallPosition();
         }
 
-        if (actualBounds.x < 470){
+        if (actualBounds.x < 0){
             gameScreen.getEnemy().score += 1;
             resetBallPosition();
         }

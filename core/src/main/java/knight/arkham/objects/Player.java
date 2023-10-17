@@ -15,8 +15,8 @@ public class Player extends GameObject {
 
     public void update(float deltaTime) {
 
-        boolean hasTopCollision = actualBounds.y > 960 - actualBounds.height;
-        boolean hasBottomCollision = actualBounds.y < 325;
+        boolean hasTopCollision = actualBounds.y > 640 - actualBounds.height;
+        boolean hasBottomCollision = actualBounds.y < 0;
 
         if (isPlayer1) {
 
