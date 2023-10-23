@@ -44,7 +44,7 @@ public class GameScreen extends ScreenAdapter {
         float midScreenHeight = game.screenHeight / 2f;
         float midScreenWidth = game.screenWidth / 2f;
 
-//        Si deseo posicionar la camara en el origen debo de dividir el screen height y width entre 2
+//        Si deseo posicionar la camara en el centro debo de dividir el screen height y width entre 2
         camera.position.set(midScreenWidth, midScreenHeight, 0);
 
         player = new Player(new Rectangle(10, midScreenHeight, 16, 64), true);
