@@ -8,8 +8,8 @@ public class Player extends GameObject {
     public int score;
     private final boolean isPlayer1;
 
-    public Player(Rectangle rectangle, boolean isPlayer1) {
-        super(rectangle, 500);
+    public Player(float positionX, float positionY, boolean isPlayer1) {
+        super(new Rectangle(positionX, positionY, 16, 64), 500);
         this.isPlayer1 = isPlayer1;
     }
 

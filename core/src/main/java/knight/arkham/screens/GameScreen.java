@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -47,13 +47,13 @@ public class GameScreen extends ScreenAdapter {
 //        Si deseo posicionar la camara en el centro debo de dividir el screen height y width entre 2
         camera.position.set(midScreenWidth, midScreenHeight, 0);
 
-        player = new Player(new Rectangle(10, midScreenHeight, 16, 64), true);
-        enemy = new Player(new Rectangle(game.screenWidth-26, midScreenHeight, 16, 64), false);
+        player = new Player(10, midScreenHeight, true);
+        enemy = new Player(game.screenWidth-26, midScreenHeight, false);
 
         if (!isNewGame)
             GameDataHelper.loadGameData(player, enemy);
 
-        ball = new Ball(new Rectangle(midScreenWidth, midScreenHeight, 20, 20), this);
+        ball = new Ball(new Vector2(midScreenWidth, midScreenHeight), this);
 
         scoreNumbers = loadTextureSprite();
 

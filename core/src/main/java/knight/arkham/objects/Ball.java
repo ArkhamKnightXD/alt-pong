@@ -10,12 +10,12 @@ public class Ball extends GameObject {
     private final GameScreen gameScreen;
     private final Vector2 initialPosition;
 
-    public Ball(Rectangle rectangle, GameScreen gameScreen) {
-        super(rectangle, 300);
+    public Ball(Vector2 position, GameScreen gameScreen) {
+        super(new Rectangle(position.x, position.y, 20, 20), 300);
 
         this.gameScreen = gameScreen;
         velocity = new Vector2(getRandomDirection(), getRandomDirection());
-        initialPosition = new Vector2(rectangle.x, rectangle.y);
+        initialPosition = position;
     }
 
     private float getRandomDirection(){
