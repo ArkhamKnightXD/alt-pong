@@ -139,27 +139,27 @@ public class GameScreen extends ScreenAdapter {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-            shapeRenderer.setColor(new Color(0.4f, 0.8f, 0.6f, 0));
+        shapeRenderer.setColor(new Color(0.4f, 0.8f, 0.6f, 0));
 
-            shapeRenderer.circle(game.screenWidth / 2f,  game.screenHeight / 2f, 150);
-
-        shapeRenderer.end();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-            shapeRenderer.setColor(Color.WHITE);
-
-            shapeRenderer.line(game.screenWidth / 2f, game.screenHeight, game.screenWidth / 2f -6, 0);
-
-            player.draw(shapeRenderer);
-            enemy.draw(shapeRenderer);
+        shapeRenderer.circle(game.screenWidth / 2f,  game.screenHeight / 2f, 150);
 
         shapeRenderer.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-            shapeRenderer.setColor(Color.YELLOW);
-            ball.draw(shapeRenderer);
+        shapeRenderer.setColor(Color.WHITE);
+
+        shapeRenderer.line(game.screenWidth / 2f, game.screenHeight, game.screenWidth / 2f -6, 0);
+
+        player.draw(shapeRenderer);
+        enemy.draw(shapeRenderer);
+
+        shapeRenderer.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        shapeRenderer.setColor(Color.YELLOW);
+        ball.draw(shapeRenderer);
 
         shapeRenderer.end();
     }
