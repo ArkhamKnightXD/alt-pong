@@ -4,12 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-public class Player extends GameObject {
+
+public class Player {
+
+    public final Rectangle actualBounds;
     public int score;
+    private final float actualSpeed;
     private final boolean isPlayer1;
 
     public Player(float positionX, float positionY, boolean isPlayer1) {
-        super(new Rectangle(positionX, positionY, 16, 64), 500);
+
+        actualBounds = new Rectangle(positionX, positionY, 16, 64);
+        actualSpeed = 500;
         this.isPlayer1 = isPlayer1;
     }
 

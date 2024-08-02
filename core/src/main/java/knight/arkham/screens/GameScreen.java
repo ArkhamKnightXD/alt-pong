@@ -22,6 +22,7 @@ import knight.arkham.objects.Ball;
 import knight.arkham.objects.Player;
 
 public class GameScreen extends ScreenAdapter {
+
     private final Pong game;
     private final Player player;
     private final Player enemy;
@@ -53,7 +54,7 @@ public class GameScreen extends ScreenAdapter {
         if (!isNewGame)
             GameDataHelper.loadGameData(player, enemy);
 
-        ball = new Ball(new Vector2(midScreenWidth, midScreenHeight), this);
+        ball = new Ball(new Vector2(midScreenWidth, midScreenHeight));
 
         scoreNumbers = loadTextureSprite();
 
@@ -85,8 +86,20 @@ public class GameScreen extends ScreenAdapter {
         enemy.update(deltaTime);
         ball.update(deltaTime);
 
-        ball.hasCollision(player.getBounds());
-        ball.hasCollision(enemy.getBounds());
+        ball.hasCollision(player.actualBounds);
+        ball.hasCollision(enemy.actualBounds);
+
+        if (ball.actualBounds.x > game.screenWidth) {
+
+            player.score += 1;
+            ball.resetBallPosition();
+        }
+
+        if (ball.actualBounds.x < 0) {
+
+            enemy.score += 1;
+            ball.resetBallPosition();
+        }
 
         setGameOverScreen();
 
@@ -143,20 +156,12 @@ public class GameScreen extends ScreenAdapter {
 
         shapeRenderer.circle(game.screenWidth / 2f,  game.screenHeight / 2f, 150);
 
-        shapeRenderer.end();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
         shapeRenderer.setColor(Color.WHITE);
 
         shapeRenderer.line(game.screenWidth / 2f, game.screenHeight, game.screenWidth / 2f -6, 0);
 
         player.draw(shapeRenderer);
         enemy.draw(shapeRenderer);
-
-        shapeRenderer.end();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         shapeRenderer.setColor(Color.YELLOW);
         ball.draw(shapeRenderer);
@@ -182,15 +187,13 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void hide() {
-
         dispose();
     }
 
     @Override
     public void dispose() {
-        music.dispose();
-    }
 
-    public Player getPlayer() {return player;}
-    public Player getEnemy() {return enemy;}
+        music.dispose();
+        winSound.dispose();
+    }
 }

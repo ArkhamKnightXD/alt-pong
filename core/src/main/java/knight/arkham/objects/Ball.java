@@ -3,36 +3,38 @@ package knight.arkham.objects;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import knight.arkham.screens.GameScreen;
 
-public class Ball extends GameObject {
+public class Ball {
+
+    public final Rectangle actualBounds;
+    private final float actualSpeed;
     private final Vector2 velocity;
-    private final GameScreen gameScreen;
     private final Vector2 initialPosition;
     private final int radius;
 
-    public Ball(Vector2 position, GameScreen gameScreen) {
-        super(new Rectangle(position.x, position.y, 20, 20), 300);
+    public Ball(Vector2 position) {
 
-        this.gameScreen = gameScreen;
+        actualBounds = new Rectangle(position.x, position.y, 20, 20);
+        actualSpeed = 300;
         velocity = new Vector2(getRandomDirection(), getRandomDirection());
         initialPosition = position;
         radius = 12;
     }
 
-    private float getRandomDirection(){
+    private float getRandomDirection() {
 
         return (Math.random() < 0.5) ? 1 : -1;
     }
 
-    private void resetBallPosition(){
+    public void resetBallPosition() {
+
         velocity.set(getRandomDirection(), getRandomDirection());
 
         actualBounds.x = initialPosition.x;
         actualBounds.y = initialPosition.y;
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime) {
 
         actualBounds.x += velocity.x * actualSpeed * deltaTime;
         actualBounds.y += velocity.y * actualSpeed * deltaTime;
@@ -41,25 +43,15 @@ public class Ball extends GameObject {
         boolean hasBottomCollision = actualBounds.y < radius;
 
         if (hasTopCollision || hasBottomCollision)
-            reverseVelocityY();
-
-        if (actualBounds.x > 960){
-            gameScreen.getPlayer().score += 1;
-            resetBallPosition();
-        }
-
-        if (actualBounds.x < 0){
-            gameScreen.getEnemy().score += 1;
-            resetBallPosition();
-        }
+            velocity.y *= -1;
     }
 
-    public void hasCollision(Rectangle playerBounds){
+    public void hasCollision(Rectangle playerBounds) {
 
         boolean hasCollision = circleRectCollision(new Vector2(actualBounds.x, actualBounds.y), playerBounds);
 
         if (hasCollision)
-            reverseVelocityX();
+            velocity.x *= -1;
     }
 
     //This check the collision between circle and rectangle, it works kind of well, but still has room for improvement.
@@ -91,12 +83,5 @@ public class Ball extends GameObject {
 
     public void draw(ShapeRenderer shape) {
         shape.circle(actualBounds.x, actualBounds.y, radius);
-    }
-
-    public void reverseVelocityX(){
-        velocity.x *= -1;
-    }
-    public void reverseVelocityY(){
-        velocity.y *= -1;
     }
 }

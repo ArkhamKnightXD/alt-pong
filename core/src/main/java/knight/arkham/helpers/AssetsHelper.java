@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class AssetsHelper {
+
     public static Sound loadSound(String filenamePath){
         return Gdx.audio.newSound(Gdx.files.internal("sounds/"+ filenamePath));
     }
